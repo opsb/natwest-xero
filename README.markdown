@@ -22,6 +22,6 @@ You need the following details in natwest-xero/credentials.yaml
 Usage
 -----
 
-    $ bundle exec 
+    $ bundle exec ruby client.rb
 
 NB: Very wip
