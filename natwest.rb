@@ -24,7 +24,7 @@ class Natwest
   
   def download_statements(start_date, end_date)
     accounts.map do |account|
-      download_statement(account, start_date, end_date)      
+      download_statement("#{account[:sort_code]}-#{account[:account_number]}", start_date, end_date)      
     end
   end
   

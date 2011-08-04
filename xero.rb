@@ -11,7 +11,7 @@ end
 Capybara.current_session.driver.header('user-agent', 'Mozilla/5.0 (X11; Linux x86_64; rv:2.0.1) Gecko/20110506 Firefox/4.0.1')
 
 class Xero
-  include Capybara
+  include Capybara::DSL
   attr_accessor :email, :password
   def initialize(credentials)
     credentials.each_pair{|name, value| send("#{name}=".to_sym, value)}        
@@ -23,14 +23,17 @@ class Xero
       fill_in 'Email', :with => email
       fill_in 'Password', :with => password
       click_link 'Login'
+      sleep 1
     end
   end
   
   def upload_statement!(account, file_path)
-    click_link "private banking"
+    visit '/'
+    puts account[:name]
+    click_link account[:name]
     click_link 'Import transactions'
     attach_file 'bankFile', file_path
-    page.evaluate_script("document.forms[0].action = '/AAN0I/Import/LoadBankStatement/privatebanking'")
+    page.evaluate_script("document.forms[0].action = '/AAN0I/Import/LoadBankStatement/#{account[:name].gsub("\s", "")}'")
     page.evaluate_script("document.forms[0].submit()")
     save_and_open_page
   end
