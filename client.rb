@@ -1,6 +1,7 @@
 require 'ruby-debug'
 require './natwest.rb'
 require './xero.rb'
+require './account.rb'
 require 'chronic'
 
 credentials = YAML.load(File.read('credentials.yaml'))
@@ -11,8 +12,8 @@ natwest.login
 xero = Xero.new credentials[:xero]
 xero.login!
 
-credentials[:natwest][:accounts].each do |account|
-  file_path = natwest.download_statement( "#{account[:sort_code]}-#{account[:account_number]}", Chronic.parse("16 weeks ago"), Time.now )
+credentials[:accounts].each do |account|
+  file_path = natwest.download_statement( account.id, Chronic.parse("16 weeks ago"), Time.now )
   xero.upload_statement! account, file_path
 end
 

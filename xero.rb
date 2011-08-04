@@ -29,12 +29,10 @@ class Xero
   
   def upload_statement!(account, file_path)
     visit '/'
-    puts account[:name]
-    click_link account[:name]
+    click_link account.name
     click_link 'Import transactions'
     attach_file 'bankFile', file_path
-    page.evaluate_script("document.forms[0].action = '/AAN0I/Import/LoadBankStatement/#{account[:name].gsub("\s", "")}'")
+    page.evaluate_script("document.forms[0].action = '/AAN0I/Import/LoadBankStatement/#{account.xero_url_name}'")
     page.evaluate_script("document.forms[0].submit()")
-    save_and_open_page
   end
 end

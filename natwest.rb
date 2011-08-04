@@ -47,9 +47,6 @@ class Natwest
       field.value = form_values[field_name] if field_name
     end    
     accounts_form.fields.find{ |field| field.name == "ctl00$mainContent$SS8SDDDA"}.value = "2"
-    accounts_form.fields.each do |field|
-      puts "#{field.name} => #{field.value}"
-    end
     accounts_form.checkbox_with(:name => Regexp.new(account)).check
     download_form = @ua.submit(accounts_form).forms.first
     download_button = download_form.button_with(:value => /Download transactions/)
