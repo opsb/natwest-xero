@@ -23,8 +23,8 @@ class Natwest
   end  
   
   def download_statements(start_date, end_date)
-    for account in accounts
-      download_statement(account, start_date, end_date)
+    accounts.map do |account|
+      download_statement(account, start_date, end_date)      
     end
   end
   
@@ -52,7 +52,9 @@ class Natwest
     download_form = @ua.submit(accounts_form).forms.first
     download_button = download_form.button_with(:value => /Download transactions/)
     transactions_file = @ua.submit(download_form, download_button)
-    transactions_file.save(File.expand_path("~/Desktop/transactions-#{account}.ofx"))    
+    file_path = File.expand_path("~/Desktop/transactions-#{account}.ofx")
+    transactions_file.save(file_path)    
+    file_path
   end
 
   private
@@ -68,7 +70,7 @@ class Natwest
     expected = expected('PIN','number') + expected('Password','character')
     self.page = page.forms.first.tap do |form|
      ('A'..'F').map do |letter| 
-       "ctl00$mainContent$LI6PPE#{letter}_edit"
+       "ctl00$mainContent$Tab1$LI6PPE#{letter}_edit"
       end.zip(expected).each {|field, value| form[field] = value}
     end.submit
     assert(page.title.include?('Last log in confirmation'), 
