@@ -15,7 +15,7 @@ class Natwest
     @ua = Mechanize.new {|ua| ua.user_agent_alias = 'Windows IE 7'}    
   end
   
-  def login
+  def login!
     enter_customer_number
     enter_pin_and_password
     confirm_last_login

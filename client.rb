@@ -7,7 +7,7 @@ require 'chronic'
 credentials = YAML.load(File.read('credentials.yaml'))
 
 natwest = Natwest.new credentials[:natwest]
-natwest.login
+natwest.login!
 
 xero = Xero.new credentials[:xero]
 xero.login!
