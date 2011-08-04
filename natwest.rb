@@ -40,11 +40,13 @@ class Natwest
       'B_day' => end_date.day,
       'B_month' => end_date.month,
       'B_year' => end_date.year
+      
     }
     accounts_form.fields.each do |field|
       field_name = field.name[/([AB]_[^_]+)$/, 1]
       field.value = form_values[field_name] if field_name
     end    
+    accounts_form.fields.find{ |field| field.name == "ctl00$mainContent$SS8SDDDA"}.value = "2"
     accounts_form.fields.each do |field|
       puts "#{field.name} => #{field.value}"
     end
