@@ -30,6 +30,10 @@ You need the following details in natwest-xero/credentials.yaml
 Usage
 -----
 
-    $ bundle exec ruby client.rb
+    # sync last 16 weeks
+    $ bundle exec rake sync
+
+    # sync last 2 days - can be anything that https://github.com/mojombo/chronic understands
+    $ SYNC_FROM="2 days ago" bundle exec rake sync
 
 NB: Very wip
